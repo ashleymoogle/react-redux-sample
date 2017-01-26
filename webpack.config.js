@@ -2,8 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const merge = require('webpack-merge')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const chalk = require('chalk');
-const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const TARGET = process.env.npm_lifecycle_event || 'build'
@@ -35,16 +33,17 @@ let common = {
         rules: [
             {
                 test: /\.html$/,
-                use: ['html-loader'],//happypack/loader?id=html'],
-                options: {
-                    modules: true
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        modules: true
+                    }
                 }
             },
             {
                 test: /\.js$/,
-                use: ['babel-loader'],//happypack/loader?id=babel'],
-                options: {
-                    modules: true
+                use: {
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -74,7 +73,10 @@ let common = {
         }
     },
     externals: {
-        "React": "react"
+        "React": "react",
+        "moment": "moment",
+        "lodash": "_",
+        "jquery": "$"
     },
     stats: {
     },
@@ -129,7 +131,7 @@ if (TARGET === 'build') {
                     comments: false
                 },
             }),
-            commonChunkPlugin //Bug with karma-webpack
+            commonChunkPlugin
         ]
     })
 }
@@ -139,13 +141,7 @@ if (TARGET === 'build') {
 if ((TARGET === 'start') || (TARGET === undefined)) {
     config = merge(common, {
         debug: true,
-        plugins: [
-          new ProgressBarPlugin({
-              format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-              width:200,
-              clear: false,
-          }),
-        ],
+        plugins: [],
         devtool: 'eval'
     })
 

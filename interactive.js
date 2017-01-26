@@ -25,34 +25,6 @@ const reactDev = [
     "eslint-plugin-react"
 ]
 
-const angular = [
-    "angular-translate-loader-static-files",
-    "angular-translate",
-    "angular-ui-bootstrap",
-    "angular-route",
-    "angular-ui-router",
-    "oclazyload",
-    "angular"
-]
-
-const angularDev = [
-    "angular-mocks",
-    "ng-annotate-loader",
-    "ng-annotate-webpack-plugin",
-    "phantomjs-prebuilt",
-    "karma-webpack",
-    "karma-mocha-reporter",
-    "karma-mocha",
-    "karma-firefox-launcher",
-    "karma-chrome-launcher",
-    "karma-chai",
-    "karma-spec-reporter",
-    "karma",
-    "chai-as-promised",
-    "chai",
-    "mocha",
-]
-
 inquirer.prompt(
     [
         /* Pass your questions in here */
@@ -62,30 +34,18 @@ inquirer.prompt(
             message: "What to install ?",
             choices: [
                 "react",
-                new inquirer.Separator(),
-                "angular"
             ]
         }
     ])
     .then((answers) => {
         let libs, libsDev, cmd = "", cmdDev = "", pkg = "", pkgDev = ""
-        switch (answers.js) {
-            case "react":
-                libs = react
-                libsDev = reactDev
-                break
-            case "angular":
-                libs = angular
-                libsDev = angularDev
-                break
-            default:
-                libs = react.concat(angular)
-        }
+        libs = react
+        libsDev = reactDev
 
         //Do we want to write in our package.json ?
         if (!DEV){
-            pkg = "-S"
-            pkgDev = "-D"
+            pkg = "-S "
+            pkgDev = "-D "
         }
 
         //install dependencies
@@ -93,7 +53,7 @@ inquirer.prompt(
         while(i >= 0){
             //Fucking yarn crash with shelljs, fallback on npm
             if(i === libs.length -1)
-                cmd += `npm i ${pkg} `
+                cmd += `npm i ${pkg}`
             cmd += libs[i] + " "
             i--
         }
@@ -103,17 +63,14 @@ inquirer.prompt(
         while(j >= 0){
             //Fucking yarn crash with shelljs, fallback on npm
             if(j === libsDev.length -1)
-                cmdDev += `npm i ${pkgDev} `
+                cmdDev += `npm i ${pkgDev}`
             cmdDev += libsDev[j] + " "
             j--
         }
         console.log(cmd)
-        //shell.exec('rm -r yarn.lock')
         shell.exec(cmd)
-        console.log(cmdDev
-        )
+        console.log(cmdDev)
         shell.exec(cmdDev)
         shell.exec('mv '+ answers.js +' src')
-        //shell.exec('rm -rf ' + answers.js)
     }
 );
