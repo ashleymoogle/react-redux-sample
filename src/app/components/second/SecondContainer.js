@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import MenuNavTop from '../menus/MenuNavTop'
+import styles from "./SecondContainer.css"
 
 class SecondContainer extends React.Component {
     constructor (props) {
@@ -20,7 +21,7 @@ class SecondContainer extends React.Component {
                 </div>
                 <h2>TEST</h2>
                 <div>
-                    <h3>COUNTER 2 : {counter2}</h3>
+                    <h3 className={styles.title1}>COUNTER 2 : {counter2}</h3>
                     <button onClick={() => onIncrement()}>+</button>
                     <button onClick={() => onDecrement()}>-</button>
                 </div>

@@ -1,5 +1,5 @@
 import { Link, browserHistory } from 'react-router'
-import "./MenuNavTop.css"
+import styles from "./MenuNavTop.css"
 
 class MenuNavTop extends React.Component {
     constructor (props) {
@@ -15,9 +15,9 @@ class MenuNavTop extends React.Component {
         return (
             <div>
                 <header>
-                    <ul>
-                        <li><Link to="/">HOME</Link></li>
-                        <li onClick={() => browserHistory.push('/test')}>TEST</li>
+                    <ul className={styles.list}>
+                        <li className={styles.item}><Link to="/">HOME</Link></li>
+                        <li className={styles.item} onClick={() => browserHistory.push('/test')}>TEST</li>
                     </ul>
                 </header>
             </div>
